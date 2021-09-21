@@ -1,25 +1,31 @@
-import logo from './logo.svg';
+import { useEffect, useRef, useState } from 'react';
+import { Canvas } from './components/Canvas';
+import { Form } from './components/Form';
+import { handleCanvas } from './handlers/handleCanvas';
 import './App.css';
 
-function App() {
+export default function App() {
+  const [lineWidth, setLineWidth] = useState(1);
+  const [canvasWidth, setCanvasWidth] = useState(800);
+  const [canvasHeight, setCanvasHeight] = useState(600);
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    handleCanvas(canvasRef, lineWidth);
+  }, [lineWidth, canvasWidth, canvasHeight]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Form
+        canvasWidth={canvasWidth}
+        canvasHeight={canvasHeight}
+        setLineWidth={setLineWidth}
+        setCanvasWidth={setCanvasWidth}
+        setCanvasHeight={setCanvasHeight} />
+      <Canvas
+        canvasRef={canvasRef}
+        width={canvasWidth}
+        height={canvasHeight} />
     </div>
   );
 }
-
-export default App;
